@@ -1,0 +1,17 @@
+metadata:
+    format: Lava-Test Test Definition 1.0
+    name: smoke-tests-kernel
+    description: "Basic system test command Ubuntu images. The test checks if the 
+                  kernel is the desired one."
+    maintainer:
+        - avladu@cloudbasesolutions.com
+    os:
+        - ubuntu
+    scope:
+        - functional
+    devices:
+        - hyperv
+
+run:
+    steps:
+        - lava-test-case linux-ubuntu --shell 'if [ $(uname -r) != "3.10.0-693.2.2.el7.x86_64" ]; then echo "Kernel was not installed successfully. Found kernel $(uname -r)"; else echo "Kernel installed succesfully $(uname -r)."; fi'
