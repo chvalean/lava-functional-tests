@@ -1,10 +1,9 @@
 metadata:
     format: Lava-Test Test Definition 1.0
-    name: smoke-tests-kernel
-    description: "Basic system test command Ubuntu images. The test checks if the 
-                  kernel is the desired one."
+    name: singlenode-advanced-hyperv
+    description: "lisa sample bash scripts tests"
     maintainer:
-        - avladu@cloudbasesolutions.com
+        - cvalean@cloudbasesolutions.com
     os:
         - ubuntu
     scope:
@@ -12,6 +11,23 @@ metadata:
     devices:
         - hyperv
 
+install:
+    deps:
+        - wget
+        - realpath
+        - lsb-release
+        - usbutils
+        - net-tools
+        - iputils-ping
 run:
     steps:
-        - lava-test-case linux-ubuntu --shell 'if [ $(uname -r) != "3.10.0-693.2.2.el7.x86_64" ]; then echo "Kernel was not installed successfully. Found kernel $(uname -r)"; else echo "Kernel installed succesfully $(uname -r)."; fi'
+        - echo "HYPERV_MODULES=(hv_vmbus hyperv_keyboard hv_netvsc hid_hyperv hv_utils hv_storvsc hv_balloon)" >> ~/constants.sh
+        - wget https://raw.githubusercontent.com/LIS/lis-test/master/WS2012R2/lisa/remote-scripts/ica/utils.sh
+        - wget https://raw.githubusercontent.com/LIS/lis-test/master/WS2012R2/lisa/remote-scripts/ica/CORE_LISmodules_version.sh
+        - lava-test-case CORE_LISmodules_version --shell realpath ./CORE_LISmodules_version.sh
+        - wget https://raw.githubusercontent.com/LIS/lis-test/master/WS2012R2/lisa/remote-scripts/ica/check_clocksource.sh
+        - lava-test-case check_clocksource --shell realpath ./check_clocksource.sh
+        - wget https://raw.githubusercontent.com/LIS/lis-test/master/WS2012R2/lisa/remote-scripts/ica/vcpu_verify_online.sh
+        - lava-test-case vcpu_verify_online --shell realpath ./vcpu_verify_online.sh
+        - wget https://github.com/LIS/lis-test/blob/master/WS2012R2/lisa/remote-scripts/ica/lsvmbus_basic.sh
+        - lava-test-case lsvmbus_basic --shell realpath ./lsvmbus_basic.sh
