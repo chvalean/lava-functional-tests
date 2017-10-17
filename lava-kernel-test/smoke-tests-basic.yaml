@@ -28,6 +28,6 @@ run:
         - wget https://raw.githubusercontent.com/chvalean/lis-test/master/WS2012R2/lisa/remote-scripts/ica/check_clocksource.sh
         - lava-test-case check_clocksource --shell realpath ./check_clocksource.sh
         - wget https://raw.githubusercontent.com/chvalean/lis-test/master/WS2012R2/lisa/remote-scripts/ica/vcpu_verify_online.sh
-        - lava-test-case vcpu_verify_online --shell realpath ./vcpu_verify_online.sh
+        - $(./vcpu_verify_online.sh)
         - wget https://raw.githubusercontent.com/chvalean/lis-test/master/WS2012R2/lisa/remote-scripts/ica/lsvmbus_basic.sh
-        - lava-test-case lsvmbus_basic --shell realpath ./lsvmbus_basic.sh
+        - $(./lsvmbus_basic.sh)
